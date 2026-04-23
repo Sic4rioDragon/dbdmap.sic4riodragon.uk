@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>dbdmap.sic4riodragon.uk</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111111">
+  <style>
+    :root {
+      --panel: rgba(12, 14, 18, 0.82);
+      --border: rgba(255,255,255,0.08);
+      --text: #f3f5f7;
+      --muted: #b8c0ca;
+      --shadow: 0 10px 35px rgba(0,0,0,0.35);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: Arial, sans-serif;
+      color: var(--text);
+      background:
+        linear-gradient(rgba(8,10,14,0.72), rgba(8,10,14,0.72)),
+        url("https://sic4riodragon.uk/assets/general.png") center/cover fixed no-repeat;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      padding: 18px 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      background: rgba(0,0,0,0.25);
+      backdrop-filter: blur(6px);
+    }
+
+    .brand {
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    nav a {
+      color: var(--text);
+      text-decoration: none;
+      margin-left: 16px;
+      font-weight: 700;
+    }
+
+    main {
+      width: min(1200px, calc(100% - 32px));
+      margin: 24px auto;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(6px);
+      overflow: hidden;
+    }
+
+    .map-wrap {
+      padding: 20px;
+      min-height: 520px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .map-wrap img {
+      max-width: 100%;
+      max-height: 620px;
+      object-fit: contain;
+      display: none;
+      filter: drop-shadow(0 12px 26px rgba(0,0,0,0.35));
+    }
+
+    .side {
+      padding: 20px;
+    }
+
+    .eyebrow {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+
+    .big {
+      font-size: 34px;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+
+    .status {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.45;
+      margin-bottom: 18px;
+    }
+
+    .meta {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .meta-row {
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .meta-label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+
+    .meta-value {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .history {
+      margin-top: 22px;
+    }
+
+    .history h2 {
+      margin: 0 0 12px 0;
+      font-size: 20px;
+    }
+
+    .history-entry {
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      font-size: 15px;
+      line-height: 1.35;
+    }
+
+    .history-entry:last-child {
+      border-bottom: 0;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    footer {
+      padding: 16px 24px 28px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 960px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+
+      .big {
+        font-size: 28px;
+      }
+
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav a {
+        margin-left: 0;
+        margin-right: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">dbdmap.sic4riodragon.uk</div>
+    <nav>
+      <a href="./">Map</a>
+      <a href="./about.html">About</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="card">
+      <div class="map-wrap">
+        <img id="mapImage" alt="Current DBD map">
+      </div>
+    </section>
+
+    <aside class="card side">
+      <div class="eyebrow">Current map</div>
+      <div class="big" id="mapName">Waiting for a map</div>
+      <div class="status" id="statusText">
+        This page keeps showing the last map the bot uploaded. It only changes when the bot on my side sends a new update.
+      </div>
+
+      <div class="meta">
+        <div class="meta-row">
+          <div class="meta-label">Bot status</div>
+          <div class="meta-value" id="onlineStatus">Unknown</div>
+        </div>
+
+        <div class="meta-row">
+          <div class="meta-label">Last update</div>
+          <div class="meta-value" id="updatedAt">Never</div>
+        </div>
+
+        <div class="meta-row">
+          <div class="meta-label">Detected from</div>
+          <div class="meta-value" id="sourceName">Unknown</div>
+        </div>
+      </div>
+
+      <div class="history">
+        <h2>Recent maps</h2>
+        <div id="historyList" class="muted">No history yet.</div>
+      </div>
+    </aside>
+  </main>
+
+  <footer>
+    Powered by my local DBD OCR bot + Cloudflare Worker/KV.
+  </footer>
+
+  <script>
+    const API_URL = "https://dbdmap-api.sic4riodragon.uk/api/current-map";
+    const MAP_BASE = "https://dbdmap.sic4riodragon.uk/assets/maps/";
+
+    const mapImage = document.getElementById("mapImage");
+    const mapName = document.getElementById("mapName");
+    const statusText = document.getElementById("statusText");
+    const onlineStatus = document.getElementById("onlineStatus");
+    const updatedAt = document.getElementById("updatedAt");
+    const sourceName = document.getElementById("sourceName");
+    const historyList = document.getElementById("historyList");
+
+    const sourceNames = {
+      loading_strip: "loading banner",
+      tab_map_name: "tab / match details"
+    };
+
+    function fmtDate(value) {
+      if (!value) return "Never";
+      const d = new Date(value);
+      return isNaN(d) ? value : d.toLocaleString();
+    }
+
+    async function refresh() {
+      try {
+        const res = await fetch(API_URL + "?t=" + Date.now(), { cache: "no-store" });
+        const data = await res.json();
+
+        if (!data.map_name || !data.image_slug) {
+          mapName.textContent = "Waiting for a map";
+          statusText.textContent = "No map has been uploaded yet.";
+          mapImage.style.display = "none";
+        } else {
+          mapName.textContent = data.map_name;
+          statusText.textContent = "This page keeps showing the last map the bot uploaded. It only changes when the bot on my side sends a new update.";
+          mapImage.src = MAP_BASE + data.image_slug + ".webp?t=" + Date.now();
+          mapImage.style.display = "block";
+        }
+
+        onlineStatus.textContent = data.online ? "Connected recently" : "Offline / last known map";
+        updatedAt.textContent = fmtDate(data.updated_at);
+        sourceName.textContent = sourceNames[data.source_name] || data.source_name || "Unknown";
+
+        if (!data.history || !data.history.length) {
+          historyList.innerHTML = `<div class="muted">No history yet.</div>`;
+        } else {
+          historyList.innerHTML = data.history.map(item => {
+            return `<div class="history-entry">
+              <strong>${item.map_name || "Unknown"}</strong><br>
+              <span class="muted">${fmtDate(item.updated_at || item.time)}</span>
+            </div>`;
+          }).join("");
+        }
+      } catch (err) {
+        statusText.textContent = "Could not reach the live map service right now.";
+      }
+    }
+
+    setInterval(refresh, 5000);
+    refresh();
+  </script>
+</body>
+</html>
